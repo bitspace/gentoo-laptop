@@ -1,22 +1,4 @@
-# Deepseek R1 05/28 Response via Fireworks AI Playground
-
-## Model Parameters
-
-- *Temperature*: 0.6
-- *Max Tokens*: 16384
-- *Top P*: 1
-- *Top K*: 40
-- *Presence Penalty*: 0
-- *Frequency Penalty*: 0
-
-## Model Notes
-
-I did not have the option to provide a system prompt. Instead, I included the text of the `linux-sme-system-prompt.md` file at the start of my initial prompt.  
-I did not have the ability to upload a markdown file, as the Fireworks Playground UI only permitted image and pdf types. Instead, I included the text of `gimli-system-specifications.md` after inlining my system prompt.
-
-## Model Output
-
-Based on your requirements, constraints, and system specifications, here's an analysis and recommended approach:
+# System76 Kudu Custom LLM-Friendly Developer Gaming Laptop Build
 
 ### Top 5 Distribution Recommendations
 1. **NixOS (Declarative)**  

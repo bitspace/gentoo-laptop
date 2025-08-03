@@ -1,22 +1,4 @@
-# Llama 3.1 405B Instruct Response via Fireworks AI Playground
-
-## Model Parameters
-
-- *Temperature*: 0.6
-- *Max Tokens*: 16384
-- *Top P*: 1
-- *Top K*: 40
-- *Presence Penalty*: 0
-- *Frequency Penalty*: 0
-
-## Model Notes
-
-I did not have the option to provide a system prompt. Instead, I included the text of the `linux-sme-system-prompt.md` file at the start of my initial prompt.  
-I did not have the ability to upload a markdown file, as the Fireworks Playground UI only permitted image and pdf types. Instead, I included the text of `gimli-system-specifications.md` after inlining my system prompt.
-
-## Model Output
-
-Given your extensive experience with Linux and your specific requirements, I've carefully evaluated various distributions and window managers/desktop environments to provide you with the top 5 recommendations for each.
+# System76 Kudu Custom LLM-Friendly Developer Gaming Laptop Build
 
 **Top 5 Linux Distributions:**
 

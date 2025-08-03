@@ -1,26 +1,6 @@
-# Qwen3 Coder 480B A35B Instruct Response via Fireworks AI Playground
+# System76 Kudu Custom LLM-Friendly Developer Gaming Laptop Build
 
-## Model Parameters
-
-- *Temperature*: 0.6
-- *Max Tokens*: 16384
-- *Top P*: 1
-- *Top K*: 40
-- *Presence Penalty*: 0
-- *Frequency Penalty*: 0
-
-## Model Notes
-
-I did not have the option to provide a system prompt. Instead, I included the text of the `linux-sme-system-prompt.md` file at the start of my initial prompt.  
-I did not have the ability to upload a markdown file, as the Fireworks Playground UI only permitted image and pdf types. Instead, I included the text of `gimli-system-specifications.md` after inlining my system prompt.
-
-## Model Output
-
-Given your advanced Linux experience, specific hardware (System76 Kudu 6 with hybrid AMD/NVIDIA graphics), and detailed requirements for a rolling release, automation-friendly, and performance-oriented system, here is a structured analysis and recommendation:
-
----
-
-# 🧠 Top 5 Suitable Linux Distributions
+## 🧠 Top 5 Suitable Linux Distributions
 
 All five options are rolling-release or near-rolling, support systemd, and offer strong automation and scripting capabilities.
 
@@ -103,7 +83,7 @@ All five options are rolling-release or near-rolling, support systemd, and offer
 
 ---
 
-# 🖥️ Top 5 Desktop Environments / Window Managers
+## 🖥️ Top 5 Desktop Environments / Window Managers
 
 All are automation-friendly, LLM-parsable, and suitable for hybrid GPU setups.
 
@@ -161,7 +141,7 @@ All are automation-friendly, LLM-parsable, and suitable for hybrid GPU setups.
 
 ---
 
-# 🛠️ Recommended Installation Plan
+## 🛠️ Recommended Installation Plan
 
 Assuming you're open to any of the above distributions, here's a step-by-step installation plan that can be automated by an LLM agent like Claude Code:
 
@@ -277,10 +257,8 @@ Assuming you're open to any of the above distributions, here's a step-by-step in
 
 ---
 
-# 🔚 Final Notes
+## 🔚 Final Notes
 
 - **Recommendation**: **NixOS** is the most LLM-agent-friendly due to its declarative nature. If you want bleeding edge + binary fast installs, combine with `nixpkgs-unstable`.
 - **Runner-up**: **Arch Linux** with heavy use of AUR and `paru/yay` for custom builds.
 - **Hybrid Gentoo** is viable but will require careful scripting to avoid compile timeouts.
-
-Let me know which distribution you'd like to proceed with, and I can generate a full declarative config or automation script tailored to it.

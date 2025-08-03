@@ -1,22 +1,6 @@
-# Kimi K2 Instruct Response via FireworksAI Playground
+# System76 Kudu Custom LLM-Friendly Developer Gaming Laptop Build
 
-## Model Parameters
-
-- *Temperature*: 0.6
-- *Max Tokens*: 16384
-- *Top P*: 1
-- *Top K*: 40
-- *Presence Penalty*: 0
-- *Frequency Penalty*: 0
-
-## Model Notes
-
-I did not have the option to provide a system prompt. Instead, I included the text of the `linux-sme-system-prompt.md` file at the start of my initial prompt.  
-I did not have the ability to upload a markdown file, as the Fireworks Playground UI only permitted image and pdf types. Instead, I included the text of `gimli-system-specifications.md` after inlining my system prompt.
-
-## Model Response
-
-Top 5 distributions (ranked by how well they satisfy *all* constraints, not just “rolling release”)
+## Top 5 distributions (ranked by how well they satisfy *all* constraints, not just “rolling release”)
 
 1. NixOS unstable  
    • Purely declarative (`configuration.nix` + flakes) – easily scripted, diffable, and LLM-parsable.  
@@ -50,7 +34,7 @@ Top 5 distributions (ranked by how well they satisfy *all* constraints, not just
    • Still gives you USE-flag flexibility *only* for the packages you choose to build.  
    • Draw-back: you still have to maintain a portage tree and occasional blockers; LLM agents struggle with the interactive parts of `emerge`.
 
-Window-manager / compositor shortlist (all Wayland-first, text-configurable, lightweight)
+## Window-manager / compositor shortlist (all Wayland-first, text-configurable, lightweight)
 
 1. Sway – drop-in i3 replacement, pure Wayland, config is `~/.config/sway/config` (i3 syntax).  
 2. Hyprland – dynamic tiling, animations, plugin system; config is `hyprland.conf`.  
@@ -58,7 +42,7 @@ Window-manager / compositor shortlist (all Wayland-first, text-configurable, lig
 4. Qtile Wayland backend – entire WM written/configured in Python.  
 5. Wayfire – floating/compositor hybrid, config is INI; good X11 fallback via XWayland.
 
-Installation roadmap (agent-orchestrated, entirely scriptable)
+## Installation roadmap (agent-orchestrated, entirely scriptable)
 
 Phase 0 – prepare host for agent  
 0.1 Boot latest Arch ISO (has `openssh` and `cloud-init`)  

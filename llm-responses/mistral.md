@@ -1,6 +1,3 @@
-# Mistral AI 'Le Chat' Pro, Research Mode
-
-
 # Customized Linux Distribution and Desktop Environment Selection for High-End Laptop with Specific Constraints and Requirements
 
 > - Target hardware: System76 Kudu6 laptop with AMD Ryzen 9 5900HX, NVIDIA RTX 3060 GPU, 64 GiB RAM, 2 TiB NVMe SSD.  
