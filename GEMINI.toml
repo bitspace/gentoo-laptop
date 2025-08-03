@@ -26,7 +26,7 @@ The final system will be optimized for:
 """
 
 [input_data]
-source_directory = "llm_responses/"
+source_directory = "llm-responses/"
 description = "A directory containing plain text files. Each file is the complete response from a different LLM to the initial project prompt."
 
 [constraints_and_guardrails]
