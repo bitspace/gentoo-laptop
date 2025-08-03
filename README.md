@@ -1,77 +1,44 @@
 # LLM-Guided Laptop Build Experiment
 
-## Project Evolution: New Approach
+## Purpose and Background
 
-### Why didn't this work with Gentoo?
+The primary goal of this project is to gain exposure, experience, and maybe some muscle memory in the realm of large language models, especially with the CLI-based agentic model orchestrator tools: Claude Code, Gemini CLI, and OpenAI Codex. I may retroactively add GitHub Copilot into this, but that's something of a different beast, being a preschooler-targeted "click the pictures and make it go" type of product. (My disdain for the WIMP paradigm is legendary.)  
 
-As it turns out, Claude Code is not great with long-running tasks. I had chosen Gentoo because of its flexibility and fine-grained control. The finest-grained control in Gentoo is to build as much as possible from source and have highly-customized USE flags and other parameters all over the place.
-Compiling from source takes time; some packages, a _lot_ of time. A good example is `llvm-core/llvm` which takes well over 30 minutes to compile.
-Another option is to integrate some binary packages in the mix, but then some amount of control is lost, unless the exact combination of USE flags I want is replicated in the binary package and its dependencies.
-Claude code timed out after some period of time having no input control. It doesn't time out gracefully, really; it crashes.
-I have not tried this with either Gemini CLI or OpenAI Codex. My (admittedly lighter than with Claude Code) experience with those tools is underwhelming.
-My weird brain did what it often does, though, and went overboard on "boil the ocean" size project ideas. I'm going to build a customized user experience on my laptop that is optimized for the sets of tasks that I have for it. I will make most of my choices - including the choice of operating system (no Windows, no hackintosh) and window/desktop environment - through a process of consensus developed across several outputs from various large language models.
-Something of a visualization: (Project description -> LLM -> output) * several LLM's -> analyze/evaluate these using an agent orchestrator like Claude Code, Gemini CLI, or OpenAI Codex. I might even run it through all three.
+The overall goal is to end up with a laptop that suits some of my computing needs (gaming, coding, tinkering with technology, AI, and maybe some music production). I have a System76 Kudu laptop that I'm not really using; it was most recently running Windows 11 to facilitate gaming. However, I couldn't tolerate Wintendo for very long and rage-wiped the disk. Currently it has a barebones Gentoo Linux installation after some iterations on an earlier variant of this experiment to guide the installation. Gentoo turned out not to be a great choice because of the ridiculous source compile times of many core system packages (gcc, llvm, kernel, other suff). Claude Code could not get past the hour+ compile times without timing out and crashing. It turns out that the "build everything from source" is not compatible with "rapid iteration" style work, which is where the conversational nature of the LLM chatbots and agentic tools really shines.  
 
-### Evolution Generation 2 Approach
+Back to the drawing board, I decided to use this LLM-consensus approach to help me decide on the "best" Linux distribution and the "best" window manager and environment to use, optimizing for how easily the system configuration and other data can be parsed by a LLM.  
 
-Define the overall system requirements and have each LLM create a plan to accomplish the goal of building the system. Use one of the agentic LLM orchestration tools to synthesize the "best of" from these. The way this is worded in Gen 1 CLAUDE.md is great. Execute on the plan, probably using a combination of manual and automated. Try to drive fully automated, intervening and overriding when that produces a better outcome.
-For the web-based LLM's that accept a system prompt to set up the persona/expertise/context, provide that separately. Use the existing one.
+I hadn't even considered NixOS until Gemini threw me that outside-the-box curve ball (and I didn't even change any model parameters like temperature!) making the case for the declarative immutable system configuration paradigm being extremely LLM-friendly and automation-friendly.  
 
-- [ ] Write the system requirements
-  - Adapt existing document
-  - Provide target system specifications
-- [ ] Compile a list of LLM's to use
-  - Probably the same 20+ used for Gen 1 of this project
-- [ ] Feed the bots, saving and labeling output
-- [ ] Generate larger project instructions (CLAUDE.md etc)
-  - Use a web-based LLM client to assist. Use Claude web to generate Claude Code instructions, use Gemini to generate Gemini CLI instructions, use ChatGPT to generate OpenAI Codex instructions
-  - It is this document that is to be deployed to the target system with the system specifications document and possibly the Linux expert system prompt text; the LLM response text does not get deployed to the target system.
-- [ ] Iterate through the plan; drive automated, stepping out to manually intervene when necessary, redirect and guide the LLM as appropriate.
+As soon as I modified my general LLM prompt and my system prompt "Linux expert" (Tinus Lorvalds is his name) to consider NixOS alongside Arch, Gentoo, and other more "traditional" distributions, NixOS became a top contender with almost all models.  
 
-## 2025-08-01
+I have held for decades that the way we interact with computers is twisted and unnatural. Typing is not a natural human skill. Information presented on a screen in a very rough "desktop" metaphor is also extremely limiting and unnatural: hence my disdain for the WIMP (Windows, Icons, Menu, Pointer) paradigm. The most "natural" human information exchange channels are voice/hearing and writing (with a handwriting implement, not a typewriter)/reading.  
 
-I'm discovering that Claude Code struggles with long-running tasks. Anybody who's worked with Gentoo realizes that there are a lot of these. I'm rethinking the approach here, and whether I want to use Gentoo and build lots of things from source, use binaries, or just a different distribution.
+The explosion of NLP and LLM's (as well as speech recognition technology such as Whisper) in the past couple of years has changed things dramatically. While I'm still typing, I can now begin to integrate "natural language" or "plain English" in my typed commands and inquiries, rather than having to memorize a ton of archaic text things. With some additional work, rather than typing, I can speak; this is fairly commonplace with smart phones and increasingly with tablet and laptop form factors.  
 
-## 2025-07-26
+## The Goal
 
-I'm back at it! I'm doing some quick crash-course/cram-study type learning about RAG, agents, tool use, prompting techniques, and some specifics for each of the tools I'm using here.  
+Using LLM agent technology as much as possible (use plain English to issue commands), build a customized laptop that is optimized for automation/scriptability and LLM parsability. The system must be usable as a daily driver for software development, AI/ML/LLM/MLOps work, gaming (Steam/WINE/Proton), and possibly music production.  
 
-My approach has not changed, except that instead of my executing the synthesized task list, I'm going to hand it off to the agent orchestrator directly. That means Claude Code in this initial version.  
+Prompt several different LLM's with the same goal and guidelines, gather their output, and have my agent orchestrator synthesize a "most suitable" plan and configuration from a consensus of the other models, providing me the opportunity to override any decision.  
 
-Random thought: I might turn this into a little bit of a test of capabilities of the various tools. Can it build and install a Gentoo system on the testing (`ACCEPT_KEYWORDS="~x86"`) branch?  
+## The Tools
 
-## Update 2025-07-23
+I've been working a lot with [Claude Code](https://www.anthropic.com/claude-code) in my freelance/personal/pet project space. It is extremely powerful, and is the best demonstration of what I think is going to be how software is going to be developed from now on. My day job limits which AI models we have access to (none, outside of whatever they make available through the corporate Azure AI contract), has involved more use of GitHub Copilot, increasingly in Agent mode. I've also tinkered a little bit with [Gemini CLI](https://github.com/google-gemini/gemini-cli), and for fairness, I also want to assess OpenAI's contribution to the space: [Codex CLI](https://help.openai.com/en/articles/11096431-openai-codex-cli-getting-started).  
 
-This devolved into a morass of crazy flags and dependencies and silly tweaks and... well, it's a mess. It's likely that the way I approached this - with me being the "human in the loop" and evaluating everything the AI generated and running each command myself.  
+At the same time, I am learning how the top LLM's (at the time of this writing, 03 August 2025) behave with different inputs. A few of them provide dedicated chat interfaces, while others were accessed through a ML model gateway provider. I generated a "Linux Expert" system prompt (one that I've been using for many months for Linux expertise), documented the target system's hardware specifications, and wrote a prompt to guide the model to choose the top 5 Linux distributions and the top 5 graphical environments (window managers or desktop environments) given my parameters, and to provide a high-level implementation plan. I then instructed the agentic orchestrator (Claude Code, Gemini CLI, Codex CLI) to analyze and synthesize these into a "best of" recommendation and a more detailed implementation plan. Each of these is in its own branch in this repository.
 
-I'm going to table this for now. My next adventure - soon, within the next few days - will be to hand the reins over to the tool and set it free without human intervention.
+### The Models
 
-## Abstract
+These are the models I used to contribute to the consensus. The selection was not arbitrary, but came from a general sense of the "best" models in common use at this time.  
 
-This documents the process and approach to installing Gentoo Linux on my laptops. This project doubles as an experiment with agentic AI and LLM's.  
-
-## Approach
-
-- Install base Gentoo system following [the Gentoo Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64). Base system uses desktop/systemd stage3.
-- Write a [prompt](llm-inputs/initial-llm-prompt.md) to compel LLM's to design a plan for building a system that suits my needs.
-- Input this prompt to several models and collect their responses.
-- Leverage agent wrangler (Claude Code) to synthesize the responses from the other models to create a detailed plan
-- Iterate and execute
-
-## Ideas for the future
-
-- This proof of concept was implemented with Claude Code. Give other similar tools, such as Gemini CLI and OpenAI Codex, the same challenge.
-- Apply the refined process to another laptop (I've got a few). Install an agent wrangler on a base system and have it implement the plan directly
-- Give Claude Code its own computer! Inspired by a video clip on X in which somebody gave a Mac Mini to Claude Code.
-- Because I have more than one spare computer, do it on two computers and devise some sort of game in which they attempt to compromise the other. Bonus: if the other agent wranglers work nearly as well as Claude Code, pit them against each other.
-  - alternatively, instead of compromise, maybe play a game.
-
-## Process Journal
-
-I thought to keep notes about this experience only a while after having been through several iterations.  
-
-My biggest takeaway so far is that the ReAct sort of reason/do/analyze/re-reason/retry-do/re-analyze is a very slow process naturally. This is probably amplified by the nature of the project I've given the tools - the "do" involves compiling a shitload of software, after all - but iteration is repetitive and tedious.  
-
-The second takeaway, just as important, is that I am the bottleneck in this process. Because I was reluctant to Leeroy Jenkins this thing and wanted to verify input/output at each step, it's been a lot slower. I have changed nothing from the model's recommendations at any point.  
-
-At around the seventh or eighth iteration - at the point in the development tools install script (`phase2`) that installs `pipx` - the model rectified an issue by adding a `~amd64` testing flag to the `pipx` package, which is in the `USE` flag setup in the first script. That change required going all the way back to `phase1` again. This time, however, I am running the script itself in toto, since I've iterated through the whole thing manually already. At least it didn't take long.
+- [ChatGPT-o3](llm-responses/chatgpt-o3-deepresearch.md) - "Deep Research" enabled. I used the consumer-facing ChatGPT UI, not the playground, so I did not have an opportunity to provide a system prompt. I entered the text of [my system prompt](llm-inputs/linux-sme-system-prompt.md) as the start of the user prompt, then input the content of [the user prompt](llm-inputs/initial-llm-prompt.md), and attached [the system specifications](llm-inputs/gimli-system-specifications.md).
+- [Claude Opus 4](llm-responses/claude-opus-4-research.md) - Enabled "Research" mode. I did not have an opportunity to provide a system prompt. I entered the text of my system prompt as the start of the user prompt, then input the content of the user prompt, and attached the system specifications.
+- [Cohere Command-A](llm-responses/cohere-command-a-03-2025.md) - Cohere's playground provides an input field for a system prompt/message, where I input the text of my system prompt. The UI does not provide a facility for attaching files, so I pasted the contents of the system specifications at the start of the user prompt, and then pasted the contents of the actual prompt.
+- [Deepseek R1 05/28](llm-responses/deepseek-r1-0528.md) - My interface to this model was via [Fireworks AI](https://app.fireworks.ai) which is somewhat limited, even in the Playground. The Fireworks UI does not provide either a system prompt or attachment capability, so I [created a user prompt](llm-inputs/generic-chatbot-input.md) that simulates the system prompt and includes the system specifications and the prompt text.
+- [Gemini 2.5 Pro](llm-responses/gemini-2.5-pro-deep-research.md) - "Deep Research" mode enabled. While the Gemini UI does provide a facility for activating system prompts (they call it "Gems") I did not use that for this project because it disables access to Deep Research mode. Instead, I attached the target system specifications, entered the system prompt as the first part of the user prompt, and then entered the content of the prompt.
+- [Kimi K2 Instruct](llm-responses/kimi-k2-instruct.md) - via the Fireworks.AI playground. Same caveats as described with the Deepseek model.
+- [Llama 3.1 405B Instruct](llm-responses/llama.md) - via the Fireworks.AI playground. Same caveats as previously described models used via that interface.
+- [Mistral Le Chat](llm-responses/mistral.md) - via [Mistral's chat UI](https://chat.mistral.ai/chat) with "Research" activated. Activating "Research" disables the file attachment ability, so I used the [generic chatbot input](llm-inputs/generic-chatbot-input.md) that collates system prompt, target system specifications, and user prompt into one user prompt.
+- [Perplexity](llm-responses/perplexity-research.md) - via [the Perplexity web UI](https://www.perplexity.ai/); enabled "Research" mode, attached target system specifications, entered "system prompt" as first portion of user prompt.
+- [Qwen3 Coder 480B A35B Instruct](llm-responses/qwen.md) - via Fireworks.AI playground. Used generic chatbot combined prompt.
