@@ -36,7 +36,7 @@
 
 ## 1) Inputs the Agent Should Expect
 
-- `survey/` — a folder of model outputs (Markdown, text, JSON) collected from various LLMs.
+- `llm-responses/` — a folder of model outputs (Markdown, text, JSON) collected from various LLMs.
 - `constraints/` — any constraints (e.g., corporate VPN, CUDA required, offline package mirrors).
 - `preferences/` — user preferences & priorities (kept in `preferences.yaml`).
 - `secrets/` — credentials and tokens (never commit to Git; use `.env` + system keyring).
@@ -231,7 +231,7 @@ llm-laptop/
   scripts/
   reports/
   logs/
-  survey/
+  llm-responses/
   constraints/
   preferences/
   secrets/           (gitignored)
@@ -245,7 +245,7 @@ llm-laptop/
 
 ### 8.1 Ingestion Task
 ```
-TASK: Normalize all files in survey/ to infra/sources/survey-normalized.jsonl
+TASK: Normalize all files in llm-responses/ to infra/sources/survey-normalized.jsonl
 GOAL: Extract structured recommendations and rationales.
 OUTPUTS: survey-summary.md, survey-normalized.jsonl
 CONSTRAINTS: Lossless capture of original claims; annotate strength_of_claim.
