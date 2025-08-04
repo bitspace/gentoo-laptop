@@ -16,21 +16,23 @@ This phase covers the manual steps required to get a minimal, bootable NixOS sys
 1.  Boot your System76 Kudu from the USB drive. You should be greeted by a shell prompt.
 2.  Connect to your network.
     - **For Ethernet:** It should connect automatically.
-    - **For Wi-Fi:** Use the `iwctl` utility.
-      ```bash
-      # Enter the interactive iwctl prompt
-      iwctl
-      # List your Wi-Fi devices (e.g., wlan0)
-      [iwd]# device list
-      # Scan for networks
-      [iwd]# station <device> scan
-      # List available networks
-      [iwd]# station <device> get-networks
-      # Connect to your network
-      [iwd]# station <device> connect "Your-SSID" --passphrase "Your-Password"
-      # Exit iwctl
-      [iwd]# exit
-      ```
+    - **For Wi-Fi:** The minimal installer uses `wpa_supplicant`.
+      1.  Find your wireless interface name (it usually starts with `w`, like `wlan0` or `wlp2s0`):
+          ```bash
+          ip link
+          ```
+      2.  Generate a configuration for your network. Replace `"Your-SSID"` and `"Your-Password"` with your actual Wi-Fi name and password. This command will create a configuration file in your current directory.
+          ```bash
+          wpa_passphrase "Your-SSID" "Your-Password" > wpa_supplicant.conf
+          ```
+      3.  Start the Wi-Fi connection in the background. Replace `<device>` with your interface name from step 1.
+          ```bash
+          sudo wpa_supplicant -B -i <device> -c wpa_supplicant.conf
+          ```
+      4.  Get an IP address from the network.
+          ```bash
+          sudo dhcpcd
+          ```
 3.  Verify your connection:
     ```bash
     ping nixos.org
@@ -101,6 +103,28 @@ We will use `gdisk` to partition the NVMe drive according to your specified layo
     # Enable SSH daemon
     services.openssh.enable = true;
     ```
+
+### Step 1.5.1: Configure Persistent Networking
+
+For the network connection to work after you reboot into your new system, you must enable a network management service in `configuration.nix`. The `wpa_supplicant.conf` file you created earlier was only to get online in the temporary live environment.
+
+The standard and most flexible tool for this is NetworkManager.
+
+1.  **Edit the configuration file** for your new system:
+    ```bash
+    sudo nano /mnt/etc/nixos/configuration.nix
+    ```
+
+2.  **Enable NetworkManager:** Add the following line inside the main `{ ... }` section of the file. A good place is near the `services.openssh.enable` line.
+    ```nix
+    # Enable the NetworkManager service.
+    networking.networkmanager.enable = true;
+    ```
+
+3.  Save and exit the editor (`Ctrl+O`, `Enter`, `Ctrl+X` in nano).
+
+That's it. When you later boot into your installed system, the NetworkManager service will be running. You will use its command-line interface, `nmtui`, to connect to your Wi-Fi the first time, and it will automatically manage the connection from then on.
+
 
 ### Step 1.6: Install and Reboot
 

@@ -4,7 +4,29 @@ With the base system installed, we will now structure the configuration using **
 
 Log in as `root` at the TTY prompt.
 
-### Step 2.1: Create the Flake Structure
+### Step 2.1: Connect to the Network
+
+After rebooting from the installation, you should be at a TTY login prompt. Log in as `root` with the password you set during the install.
+
+Because you enabled `networking.networkmanager.enable = true;` in the previous step, the NetworkManager service is running. You now need to use it to connect to your Wi-Fi network.
+
+1.  **Start the NetworkManager TUI:**
+    ```bash
+    nmtui
+    ```
+2.  **Connect to Your Network:**
+    - A text-based user interface will open.
+    - Select **"Activate a connection"** and press Enter.
+    - Select your Wi-Fi network (SSID) from the list and press Enter.
+    - Enter your Wi-Fi password when prompted and press Enter.
+    - Once it connects, select **"Back"** and then **"Quit"**.
+3.  **Verify the Connection:**
+    ```bash
+    ping nixos.org
+    ```
+    If you get a response, you are online. NetworkManager will now remember this connection and connect automatically on future boots.
+
+### Step 2.2: Create the Flake Structure
 
 1.  Navigate to your NixOS configuration directory:
     ```bash
@@ -15,17 +37,16 @@ Log in as `root` at the TTY prompt.
     ```bash
     # You may need to install git first
     nix-env -iA nixos.git
+    # Configure git with a placeholder identity. This is required to make commits.
+    git config --global user.name "NixOS User"
+    git config --global user.email "root@localhost"
     git init
     git add .
     git commit -m "Initial NixOS configuration"
     ```
-4.  Create the `flake.nix` file:
+4.  Create the `flake.nix` file by running the following command. It will write the entire contents of the file at once.
     ```bash
-    nano flake.nix
-    ```
-    Paste the following content into `flake.nix`:
-
-    ```nix
+    cat > flake.nix <<'EOF'
     {
       description = "A declarative NixOS system for Gimli";
 
@@ -51,19 +72,22 @@ Log in as `root` at the TTY prompt.
         };
       };
     }
+    EOF
     ```
 
-### Step 2.2: Refactor `configuration.nix`
 
-Now we need to adjust our main `configuration.nix` to work within the flake.
+### Step 2.3: Refactor `configuration.nix`
 
-1.  Edit the configuration file:
+Now we need to adjust our main `configuration.nix` to work within the flake. The following commands will do this for you automatically.
+
+1.  **Preserve your unique `system.stateVersion`**: This command finds the state version line in your current configuration and saves it to a shell variable.
     ```bash
-    nano configuration.nix
+    STATE_VERSION_LINE=$(grep 'system.stateVersion' /etc/nixos/configuration.nix)
     ```
-2.  Ensure the file looks like this. Pay attention to the `imports` and the new user configuration block.
 
-    ```nix
+2.  **Generate the new configuration**: This command overwrites your `configuration.nix` with the new content, automatically inserting your specific `system.stateVersion` at the end.
+    ```bash
+    cat > configuration.nix <<EOF
     { config, pkgs, ... }:
 
     {
@@ -100,14 +124,10 @@ Now we need to adjust our main `configuration.nix` to work within the flake.
       nixpkgs.config.allowUnfree = true;
 
       # List packages installed in system profile.
-      environment.systemPackages = with pkgs; [
-        vim
-        git
-        wget
-        curl
-        htop
-        # Add your Gemini CLI package here later
-      ];
+      environment.systemPackages = with pkgs;
+        [ vim git wget curl htop
+          # Add your Gemini CLI package here later
+        ];
 
       # Enable the OpenSSH daemon.
       services.openssh.enable = true;
@@ -118,8 +138,9 @@ Now we need to adjust our main `configuration.nix` to work within the flake.
       # this value at the release version of the first install of this system.
       # Before changing this value read the documentation for this option
       # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-      system.stateVersion = "23.11"; # Or whatever version you installed.
+      ${STATE_VERSION_LINE}
     }
+    EOF
     ```
 
 ### Step 2.3: First Declarative Rebuild
